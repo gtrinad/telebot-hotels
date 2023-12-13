@@ -16,7 +16,7 @@ def get_photos_word(number: int) -> str:
     forms = [
         "Будет показана {number} фотография.",
         "Будут показаны {number} фотографии.",
-        "Будут показаны {number} фотографий."
+        "Будут показаны {number} фотографий.",
     ]
     remainder_100 = number % 100
 
@@ -48,7 +48,10 @@ def handle_photo_number_input(chat_id: int, command: str, text: str) -> None:
         photos_word = get_photos_word(number=max_images)
         bot.send_message(chat_id=chat_id, text=photos_word.format(number=max_images))
     else:
-        bot.send_message(chat_id=chat_id, text=f"Некорректный ввод.\nБудут показаны не более {max_images} фотографий.")
+        bot.send_message(
+            chat_id=chat_id,
+            text=f"Некорректный ввод.\nБудут показаны не более {max_images} фотографий.",
+        )
 
     set_current_requests(chat_id=chat_id, images_count=max_images)
 
@@ -60,7 +63,10 @@ def handle_photo_number_input(chat_id: int, command: str, text: str) -> None:
         request_hotels_custom(chat_id=chat_id)
 
 
-@bot.message_handler(func=lambda message: "choice_photo_number" == get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "choice_photo_number"
+    == get_state(chat_id=message.chat.id, column="states")
+)
 def choice_photo_number(message: Message) -> None:
     """
     Функция-хэндлер устанавливает количество показываемых фотографий.

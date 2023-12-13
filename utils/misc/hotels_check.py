@@ -12,14 +12,21 @@ from utils.re_patterns import PATTERN_PROPERTY
 
 @logger.catch
 def hotels_check(
-        response_api: Union[Response, bool], show_photo: int, hotels_count: int, chat_id: int = None
+    response_api: Union[Response, bool],
+    show_photo: int,
+    hotels_count: int,
+    chat_id: int = None,
 ) -> Union[List, bool]:
     """
     Функция выбирает необходимую информацию и возвращает список отелей.
     """
 
-    distance_min: int = get_current_requests(chat_id=chat_id, column="distance_min") if chat_id else 0
-    distance_max: int = get_current_requests(chat_id=chat_id, column="distance_max") if chat_id else 100
+    distance_min: int = (
+        get_current_requests(chat_id=chat_id, column="distance_min") if chat_id else 0
+    )
+    distance_max: int = (
+        get_current_requests(chat_id=chat_id, column="distance_max") if chat_id else 100
+    )
 
     pattern = re.compile(pattern=PATTERN_PROPERTY)
 
@@ -44,7 +51,9 @@ def hotels_check(
         day_price = float(data["amount"])
 
         if chat_id and not check_distance(
-                landmark=distance_from_center, distance_min=distance_min, distance_max=distance_max
+            landmark=distance_from_center,
+            distance_min=distance_min,
+            distance_max=distance_max,
         ):
             continue
 
@@ -57,13 +66,21 @@ def hotels_check(
             images = hotel_summary.get("images", "")
 
             result = {
-                "hotel_name": name, "hotel_id": property_id,
-                "day_price": day_price, "latitude": latitude, "longitude": longitude,
-                "distance": distance_from_center, "star_rating": star_rating,
-                "review_info": review_info, "address": address, "images": images
+                "hotel_name": name,
+                "hotel_id": property_id,
+                "day_price": day_price,
+                "latitude": latitude,
+                "longitude": longitude,
+                "distance": distance_from_center,
+                "star_rating": star_rating,
+                "review_info": review_info,
+                "address": address,
+                "images": images,
             }
 
-            if result["hotel_id"] not in {structure["hotel_id"] for structure in hotels}:
+            if result["hotel_id"] not in {
+                structure["hotel_id"] for structure in hotels
+            }:
                 hotels.append(result)
                 hotels_added += 1
 

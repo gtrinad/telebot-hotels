@@ -23,7 +23,7 @@ def check_dates(chat_id: int) -> None:
         bot.send_message(
             chat_id=chat_id,
             text=f"Дата въезда установлена на сегодня: {date_today},\n"
-                 f"т.к. вы указали дату предшествующую сегодняшнему дню."
+            f"т.к. вы указали дату предшествующую сегодняшнему дню.",
         )
         set_current_requests(chat_id=chat_id, check_in=date_today)
         date_in = date_today
@@ -34,12 +34,14 @@ def check_dates(chat_id: int) -> None:
         bot.send_message(
             chat_id=chat_id,
             text=f'Дата выезда установлена на следующий день дня заезда: {date_out.strftime("%Y-%m-%d")},\n'
-                 f'т.к. вы указали дату выезда равную предшествующему или дню заезда.'
+            f"т.к. вы указали дату выезда равную предшествующему или дню заезда.",
         )
 
     bot.send_message(chat_id=chat_id, text=f"Дата въезда: {date_in}")
     bot.send_message(chat_id=chat_id, text=f"Дата выезда: {date_out}")
 
     bot.send_message(chat_id=chat_id, text="Все ок.")
-    bot.send_message(chat_id=chat_id, text="Выберите количество отелей для показа (1-25):")
+    bot.send_message(
+        chat_id=chat_id, text="Выберите количество отелей для показа (1-25):"
+    )
     set_state(chat_id=chat_id, states="hotels_number")

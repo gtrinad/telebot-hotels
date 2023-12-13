@@ -9,7 +9,9 @@ from utils.db_utils.current_requests import get_current_requests
 
 @logger.catch
 def get_distance_for_center(structure: Dict, chat_id: int) -> Union[int, float]:
-    hotel_latitude, hotel_longitude = structure.get("latitude"), structure.get("longitude")
+    hotel_latitude, hotel_longitude = structure.get("latitude"), structure.get(
+        "longitude"
+    )
     if hotel_latitude != 0 and hotel_longitude != 0:
         city_current_id = get_current_requests(chat_id=chat_id, column="destination_id")
         city_latitude, city_longitude = (

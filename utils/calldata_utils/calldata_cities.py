@@ -3,7 +3,12 @@ from loguru import logger
 from telebot.types import CallbackQuery, Message
 
 from bot_loader import bot
-from handlers.default_handlers.main_commands import send_lowprice, send_highprice, send_custom, cancel_command
+from handlers.default_handlers.main_commands import (
+    send_lowprice,
+    send_highprice,
+    send_custom,
+    cancel_command,
+)
 from utils.db_utils.current_requests import get_current_requests
 from utils.db_utils.state import set_state
 
@@ -29,11 +34,15 @@ def cities_call(call: CallbackQuery) -> None:
         "city_no": "Вы выбрали 'Нет'",
     }
 
-    bot.send_message(chat_id=chat_id, text=response_messages.get(call_data, "Неизвестная команда"))
+    bot.send_message(
+        chat_id=chat_id, text=response_messages.get(call_data, "Неизвестная команда")
+    )
 
     if call_data == "city_yes":
         set_state(chat_id=chat_id, states="city")
-        current_command = get_current_requests(chat_id=chat_id, column="current_command")
+        current_command = get_current_requests(
+            chat_id=chat_id, column="current_command"
+        )
         command_mapping = {
             "low": send_lowprice,
             "high": send_highprice,

@@ -31,15 +31,14 @@ def calldata_choice_history(call: CallbackQuery) -> None:
             chat_id=chat_id,
             message_id=message_id,
             text=f"Вы выбрали историю поиска '{command}'.\nВыберите один из вариантов ниже:",
-            reply_markup=show_search_hotel(command=command, chat_id=chat_id)
+            reply_markup=show_search_hotel(command=command, chat_id=chat_id),
         )
     elif call_data == "close_history":
         bot.delete_message(chat_id=chat_id, message_id=message_id)
         bot.send_message(
             chat_id=chat_id,
-            text="История закрыта, желаете продолжить?\n"
-                 "Выберите команду:",
-            reply_markup=markup_start(commands=DEFAULT_COMMANDS)
+            text="История закрыта, желаете продолжить?\n" "Выберите команду:",
+            reply_markup=markup_start(commands=DEFAULT_COMMANDS),
         )
         bot.send_message(chat_id=chat_id, text="Описание команд - /help")
         set_state(chat_id=chat_id, states="0")

@@ -10,8 +10,7 @@ def set_pagination(message_id: int, city_id: int, command: str) -> None:
     """
 
     hotel_pagination, created = HotelsPagination.get_or_create(
-        message_id=message_id,
-        defaults={"command": command, "city_id": city_id}
+        message_id=message_id, defaults={"command": command, "city_id": city_id}
     )
 
     if not created:
@@ -33,4 +32,4 @@ def get_pagination(message_id: int) -> Tuple:
         USER_DATABASE.close()
         return hotel_pagination.command, hotel_pagination.city_id
 
-    return '0', 0
+    return "0", 0

@@ -16,12 +16,14 @@ def handle_numeric_input(
     next_state: str,
     success_messages: List,
     error_message: str,
-    success_callback: callable = None
+    success_callback: callable = None,
 ) -> None:
     logger.info(f"В чате - {chat_id} пользователь выполняет {current_state}")
     if text.isdigit():
         value = int(text)
-        min_value = get_current_requests(chat_id=chat_id, column=f"{current_state[:-4]}_min")
+        min_value = get_current_requests(
+            chat_id=chat_id, column=f"{current_state[:-4]}_min"
+        )
         if current_state == "distance_min":
             if value >= 0 and value >= min_value:
                 for success_message in success_messages:
@@ -46,7 +48,10 @@ def handle_numeric_input(
         bot.send_message(chat_id=chat_id, text=error_message)
 
 
-@bot.message_handler(func=lambda message: "distance_max" == get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "distance_max"
+    == get_state(chat_id=message.chat.id, column="states")
+)
 @logger.catch
 def max_distance_choice(message: Message) -> None:
     chat_id: int = message.chat.id
@@ -56,15 +61,20 @@ def max_distance_choice(message: Message) -> None:
         text=text,
         current_state="distance_max",
         next_state="date_from",
-        success_messages=[f"Выбранный диапазон расстояния "
-                          f"{get_current_requests(chat_id=chat_id, column='distance_min')} - {text} км."],
+        success_messages=[
+            f"Выбранный диапазон расстояния "
+            f"{get_current_requests(chat_id=chat_id, column='distance_min')} - {text} км."
+        ],
         error_message=f"Ошибка, введите число больше, "
-                      f"чем минимальное: {get_current_requests(chat_id=chat_id, column='distance_min')}.",
-        success_callback=lambda: from_date(message)
+        f"чем минимальное: {get_current_requests(chat_id=chat_id, column='distance_min')}.",
+        success_callback=lambda: from_date(message),
     )
 
 
-@bot.message_handler(func=lambda message: "price_max" == get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "price_max"
+    == get_state(chat_id=message.chat.id, column="states")
+)
 @logger.catch
 def max_price_choice(message: Message) -> None:
     chat_id: int = message.chat.id
@@ -76,14 +86,17 @@ def max_price_choice(message: Message) -> None:
         next_state="distance_min",
         success_messages=[
             f"Выбранный диапазон цен ${get_current_requests(chat_id=chat_id, column='price_min')} - {text}",
-            f"Введите желаемое минимальное расстояние до центра города (км):"
+            f"Введите желаемое минимальное расстояние до центра города (км):",
         ],
         error_message=f"Ошибка, введите число больше, "
-                      f"чем минимальное: {get_current_requests(chat_id=chat_id, column='price_min')}."
+        f"чем минимальное: {get_current_requests(chat_id=chat_id, column='price_min')}.",
     )
 
 
-@bot.message_handler(func=lambda message: "price_min" == get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "price_min"
+    == get_state(chat_id=message.chat.id, column="states")
+)
 @logger.catch
 def min_price_choice(message: Message) -> None:
     chat_id: int = message.chat.id
@@ -93,11 +106,14 @@ def min_price_choice(message: Message) -> None:
         current_state="price_min",
         next_state="price_max",
         success_messages=["Введите желаемую максимальную стоимость за ночь, (USD):"],
-        error_message="Ошибка, введите число больше 0"
+        error_message="Ошибка, введите число больше 0",
     )
 
 
-@bot.message_handler(func=lambda message: "distance_min" == get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "distance_min"
+    == get_state(chat_id=message.chat.id, column="states")
+)
 @logger.catch
 def min_distance_choice(message: Message) -> None:
     chat_id: int = message.chat.id
@@ -106,6 +122,8 @@ def min_distance_choice(message: Message) -> None:
         text=message.text,
         current_state="distance_min",
         next_state="distance_max",
-        success_messages=["Введите желаемое максимальное расстояние до центра города (км):"],
-        error_message="Ошибка, введите число больше или равно 0"
+        success_messages=[
+            "Введите желаемое максимальное расстояние до центра города (км):"
+        ],
+        error_message="Ошибка, введите число больше или равно 0",
     )

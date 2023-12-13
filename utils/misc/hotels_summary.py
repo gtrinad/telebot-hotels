@@ -9,7 +9,9 @@ from utils.re_patterns import PATTERN_SUMMARY, PATTERN_IMAGES
 
 
 @logger.catch
-def get_summary(hotel_id: str, show_photo: int = 0) -> Union[bool, Dict[str, Union[str, List[str]]]]:
+def get_summary(
+    hotel_id: str, show_photo: int = 0
+) -> Union[bool, Dict[str, Union[str, List[str]]]]:
     """
     Функция получает на вход ID отеля и возвращает информацию по отелю, включая фотографии (при наличии show_photo).
     """
@@ -21,11 +23,13 @@ def get_summary(hotel_id: str, show_photo: int = 0) -> Union[bool, Dict[str, Uni
         "eapid": 1,
         "locale": "en_US",
         "siteId": 300000001,
-        "propertyId": f"{str(hotel_id)}"
+        "propertyId": f"{str(hotel_id)}",
     }
 
     response_api: Any = get_prop_list(url=url, payload=payload)
-    logger.info(f"Получен ответ от API Hotels (get-summary) по гостинице: ID_{hotel_id}.")
+    logger.info(
+        f"Получен ответ от API Hotels (get-summary) по гостинице: ID_{hotel_id}."
+    )
     if not response_api:
         logger.info("Получен пустой ответ от API Hotels (get-summary).")
         return False
@@ -38,11 +42,7 @@ def get_summary(hotel_id: str, show_photo: int = 0) -> Union[bool, Dict[str, Uni
     if summary_match:
         rating, address, review_info = summary_match.groups()
 
-        result = {
-            "star_rating": rating,
-            "address": address,
-            "review_info": review_info
-        }
+        result = {"star_rating": rating, "address": address, "review_info": review_info}
 
         # Добавим фотографии только при наличии указания show_photo
         if show_photo:

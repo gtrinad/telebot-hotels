@@ -10,7 +10,8 @@ from utils.misc.request_hotels_custom import request_hotels_custom
 
 
 @bot.message_handler(
-    func=lambda message: get_state(chat_id=message.chat.id, column="states") in {"choice_cities", "calendar_choice"}
+    func=lambda message: get_state(chat_id=message.chat.id, column="states")
+    in {"choice_cities", "calendar_choice"}
 )
 @logger.catch
 def send_city_or_calendar_outside(message: Message) -> None:
@@ -20,28 +21,47 @@ def send_city_or_calendar_outside(message: Message) -> None:
 
     state = get_state(chat_id=message.chat.id, column="states")
     if state == "choice_cities":
-        bot.send_message(chat_id=message.chat.id, text="Пожалуйста, выберите город из предложенного списка.")
-        logger.info(f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
-                    f"получил сообщение, что следует выбрать город из предоставленного списка.")
+        bot.send_message(
+            chat_id=message.chat.id,
+            text="Пожалуйста, выберите город из предложенного списка.",
+        )
+        logger.info(
+            f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
+            f"получил сообщение, что следует выбрать город из предоставленного списка."
+        )
     elif state == "calendar_choice":
-        bot.send_message(chat_id=message.chat.id, text="Воспользуйтесь предложенным выбором.")
-        logger.info(f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
-                    f"получил сообщение, что следует воспользоваться предложенным интерактивным календарём.")
+        bot.send_message(
+            chat_id=message.chat.id, text="Воспользуйтесь предложенным выбором."
+        )
+        logger.info(
+            f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
+            f"получил сообщение, что следует воспользоваться предложенным интерактивным календарём."
+        )
 
 
-@bot.message_handler(func=lambda message: get_state(chat_id=message.chat.id, column="states") == "choice_history")
+@bot.message_handler(
+    func=lambda message: get_state(chat_id=message.chat.id, column="states")
+    == "choice_history"
+)
 @logger.catch
 def send_choice_history(message: Message) -> None:
     """
     Функция перехватывает сообщения при работе пользователя с историей.
     """
 
-    bot.send_message(chat_id=message.chat.id, text="Воспользуйтесь предложенным выбором.")
-    logger.info(f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
-                f"получил предупреждение, что следует воспользоваться предложенным выбором истории поиска.")
+    bot.send_message(
+        chat_id=message.chat.id, text="Воспользуйтесь предложенным выбором."
+    )
+    logger.info(
+        f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
+        f"получил предупреждение, что следует воспользоваться предложенным выбором истории поиска."
+    )
 
 
-@bot.message_handler(func=lambda message: get_state(chat_id=message.chat.id, column="states") == "choice_not_cities")
+@bot.message_handler(
+    func=lambda message: get_state(chat_id=message.chat.id, column="states")
+    == "choice_not_cities"
+)
 @logger.catch
 def send_not_city_outside(message: Message) -> None:
     """
@@ -61,11 +81,16 @@ def send_not_city_outside(message: Message) -> None:
         bot.send_message(chat_id=chat_id, text="Выберите или напишите 'Да/Нет'")
 
     bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id)
-    logger.info(f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
-                f"получил сообщение, что следует следовать инструкции по выбору города.")
+    logger.info(
+        f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
+        f"получил сообщение, что следует следовать инструкции по выбору города."
+    )
 
 
-@bot.message_handler(func=lambda message: get_state(chat_id=message.chat.id, column="states") == "images_choice")
+@bot.message_handler(
+    func=lambda message: get_state(chat_id=message.chat.id, column="states")
+    == "images_choice"
+)
 @logger.catch
 def send_choice_photo_outside(message: Message) -> None:
     """
@@ -74,18 +99,25 @@ def send_choice_photo_outside(message: Message) -> None:
 
     chat_id: int = message.chat.id
 
-    logger.info(f"В чате - {chat_id} пользователь {message.from_user.first_name} "
-                f"выбирает кол-во фото для показа.")
+    logger.info(
+        f"В чате - {chat_id} пользователь {message.from_user.first_name} "
+        f"выбирает кол-во фото для показа."
+    )
     command: str = get_current_requests(chat_id=chat_id, column="current_command")
     message_id: int = get_state(chat_id=chat_id, column="message_id")
     user_input = message.text.lower()
 
     if user_input in {"да", "lf", "нуы", "yes"}:
         bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id)
-        bot.send_message(chat_id=chat_id, text="Вы выбрали 'Да'.\nНапишите количество фотографий для показа (1-10):")
+        bot.send_message(
+            chat_id=chat_id,
+            text="Вы выбрали 'Да'.\nНапишите количество фотографий для показа (1-10):",
+        )
         set_state(chat_id=chat_id, states="choice_photo_number")
     elif user_input in {"нет", "ytn", "тщ", "no"}:
-        bot.send_message(chat_id=chat_id, text="Вы выбрали 'Нет'.\nФотографии показываться не будут.")
+        bot.send_message(
+            chat_id=chat_id, text="Вы выбрали 'Нет'.\nФотографии показываться не будут."
+        )
         bot.edit_message_reply_markup(chat_id=chat_id, message_id=message_id)
         set_state(chat_id=chat_id, states="send_result")
         if command == "low":
@@ -96,5 +128,7 @@ def send_choice_photo_outside(message: Message) -> None:
             request_hotels_custom(chat_id=chat_id)
     else:
         bot.send_message(chat_id=chat_id, text="Выберите или напишите 'Да/Нет'")
-        logger.info(f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
-                    f"получил сообщение, что следует следовать инструкции по выбору кол-ва фото.")
+        logger.info(
+            f"В чате - {message.chat.id} пользователь {message.from_user.first_name} "
+            f"получил сообщение, что следует следовать инструкции по выбору кол-ва фото."
+        )

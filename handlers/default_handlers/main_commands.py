@@ -18,8 +18,13 @@ def cancel_command(message: Message) -> None:
 
     chat_id: int = message.chat.id
 
-    logger.info(f"В чате - {chat_id} пользователь {message.from_user.first_name} запустил команду /cancel")
-    bot.send_message(chat_id=chat_id, text="Ваша команда отменена, чтобы начать заново введите /start")
+    logger.info(
+        f"В чате - {chat_id} пользователь {message.from_user.first_name} запустил команду /cancel"
+    )
+    bot.send_message(
+        chat_id=chat_id,
+        text="Ваша команда отменена, чтобы начать заново введите /start",
+    )
 
     set_state(chat_id=chat_id, states="0")
     set_current_requests(chat_id=chat_id, default=True)
@@ -48,14 +53,16 @@ def bot_start(message: Message):
     )
 
     welcome_message = (
-        f"Добро пожаловать {first_name}!" if created else f"Рад вас снова видеть {first_name}!"
+        f"Добро пожаловать {first_name}!"
+        if created
+        else f"Рад вас снова видеть {first_name}!"
     )
 
     bot.reply_to(message=message, text=welcome_message)
     bot.send_message(
         chat_id=chat_id,
         text="Я Бот, помогу тебе выбрать отель в нужном городе!\nВыберите команду:",
-        reply_markup=markup_start(commands=DEFAULT_COMMANDS)
+        reply_markup=markup_start(commands=DEFAULT_COMMANDS),
     )
 
     bot.send_message(chat_id=chat_id, text="Описание команд - /help")
@@ -69,9 +76,13 @@ def bot_help(message: Message) -> None:
 
     chat_id: int = message.chat.id
 
-    logger.info(f"В чате - {chat_id} пользователь {message.from_user.first_name} запустил команду /help")
+    logger.info(
+        f"В чате - {chat_id} пользователь {message.from_user.first_name} запустил команду /help"
+    )
 
-    commands_list: List = [f"/{command} - {description}" for command, description in DEFAULT_COMMANDS]
+    commands_list: List = [
+        f"/{command} - {description}" for command, description in DEFAULT_COMMANDS
+    ]
 
     bot.reply_to(message=message, text="\n".join(commands_list))
     bot.send_message(chat_id=chat_id, text="Напишите /start чтобы начать.")
@@ -86,25 +97,37 @@ def send_command(message: Message, command: str, description: str) -> None:
 
     chat_id: int = message.chat.id
 
-    logger.info(f"В чате - {chat_id} пользователь {message.from_user.first_name} запустил команду /{command}")
+    logger.info(
+        f"В чате - {chat_id} пользователь {message.from_user.first_name} запустил команду /{command}"
+    )
     set_state(chat_id=chat_id, states="city")
     set_current_requests(chat_id=chat_id, default=True, current_command=command)
 
-    bot.send_message(chat_id=chat_id, text=f"Вы выбрали - {description}.\nВ каком городе ищем?")
+    bot.send_message(
+        chat_id=chat_id, text=f"Вы выбрали - {description}.\nВ каком городе ищем?"
+    )
 
 
 @bot.message_handler(commands=["low"])
 def send_lowprice(message: Message) -> None:
     """Функция-хэндлер предлагает ввести город для поиска топ самых дешёвых отелей."""
 
-    send_command(message=message, command="low", description="узнать топ самых дешёвых отелей в городе")
+    send_command(
+        message=message,
+        command="low",
+        description="узнать топ самых дешёвых отелей в городе",
+    )
 
 
 @bot.message_handler(commands=["high"])
 def send_highprice(message: Message) -> None:
     """Функция-хэндлер предлагает ввести город для поиска топ самых дорогих отелей."""
 
-    send_command(message=message, command="high", description="узнать топ самых дорогих отелей в городе")
+    send_command(
+        message=message,
+        command="high",
+        description="узнать топ самых дорогих отелей в городе",
+    )
 
 
 @bot.message_handler(commands=["custom"])
@@ -117,5 +140,5 @@ def send_custom(message: Message) -> None:
     send_command(
         message=message,
         command="custom",
-        description="узнать топ отелей, наиболее подходящих по цене и расстоянию от центра города"
+        description="узнать топ отелей, наиболее подходящих по цене и расстоянию от центра города",
     )

@@ -28,7 +28,10 @@ def send_date_message(chat_id: int, text: str, calendar_name: str) -> None:
     set_state(chat_id=chat_id, states="calendar_choice")
 
 
-@bot.message_handler(func=lambda message: "date_to" in get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "date_to"
+    in get_state(chat_id=message.chat.id, column="states")
+)
 def to_date(message: Message) -> None:
     """
     Функция-хендлер предлагает пользователю выбрать дату выезда.
@@ -37,11 +40,14 @@ def to_date(message: Message) -> None:
     send_date_message(
         chat_id=message.chat.id,
         text="Выберите дату выезда из гостиницы",
-        calendar_name=calendar_date_to.prefix
+        calendar_name=calendar_date_to.prefix,
     )
 
 
-@bot.message_handler(func=lambda message: "date_from" in get_state(chat_id=message.chat.id, column="states"))
+@bot.message_handler(
+    func=lambda message: "date_from"
+    in get_state(chat_id=message.chat.id, column="states")
+)
 def from_date(message: Message) -> None:
     """
     Функция-хендлер предлагает пользователю выбрать дату заезда.
@@ -50,5 +56,5 @@ def from_date(message: Message) -> None:
     send_date_message(
         chat_id=message.chat.id,
         text="Выберите дату въезда в гостиницу",
-        calendar_name=calendar_date_from.prefix
+        calendar_name=calendar_date_from.prefix,
     )

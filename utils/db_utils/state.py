@@ -17,14 +17,18 @@ def get_state(chat_id: int, column: str) -> Optional[Union[str, int]]:
         return None
 
 
-def set_state(chat_id: int, states: Optional[str] = None, message_id: Optional[int] = None) -> None:
+def set_state(
+    chat_id: int, states: Optional[str] = None, message_id: Optional[int] = None
+) -> None:
     """
     Функция устанавливает состояние пользователя в таблицу UserStates "telebot_db".
     """
 
     try:
         with USER_DATABASE.atomic():
-            row, created = UserStates.get_or_create(chat_id=chat_id, defaults={"states": "0", "message_id": 0})
+            row, created = UserStates.get_or_create(
+                chat_id=chat_id, defaults={"states": "0", "message_id": 0}
+            )
 
             if states is not None:
                 row.states = states

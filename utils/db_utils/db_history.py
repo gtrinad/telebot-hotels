@@ -16,7 +16,13 @@ def get_pickle(id_chat: int) -> Dict:
         return db.get(key, {})
 
 
-def set_pickle(id_chat: int, command: str, destination_id: int, hotel_info: str, images: Optional[List[str]] = None) -> None:
+def set_pickle(
+    id_chat: int,
+    command: str,
+    destination_id: int,
+    hotel_info: str,
+    images: Optional[List[str]] = None,
+) -> None:
     """
     Функция записывает в файл историю запросов пользователя.
     """

@@ -6,7 +6,11 @@ from telebot.types import CallbackQuery, Message
 
 from bot_loader import bot
 from handlers.default_handlers.history import send_history
-from handlers.default_handlers.main_commands import send_lowprice, send_highprice, send_custom
+from handlers.default_handlers.main_commands import (
+    send_lowprice,
+    send_highprice,
+    send_custom,
+)
 
 
 @logger.catch

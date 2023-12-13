@@ -15,8 +15,14 @@ from utils.calldata_utils.calldata_prefix import calendar_calldata
 
 COMMANDS: Tuple = ("low", "high", "custom", "history")
 USER_DATES: Tuple = (
-    "date_from_right", "date_from_change", "date_from_cancel", "date_from_continue",
-    "date_to_right", "date_to_change", "date_to_cancel", "date_to_continue"
+    "date_from_right",
+    "date_from_change",
+    "date_from_cancel",
+    "date_from_continue",
+    "date_to_right",
+    "date_to_change",
+    "date_to_cancel",
+    "date_to_continue",
 )
 CHOICE_PHOTOS: Tuple = ("choice_photo_yes", "choice_photo_no")
 HISTORY: Tuple = ("wol", "hgih", "motsuc", "close_history", "close_hotels")
@@ -52,5 +58,7 @@ def callback_worker(call: CallbackQuery) -> None:
         send_character_page(message=message, page=page)
     else:
         # "back"
-        bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+        bot.delete_message(
+            chat_id=call.message.chat.id, message_id=call.message.message_id
+        )
         send_history(message=message)

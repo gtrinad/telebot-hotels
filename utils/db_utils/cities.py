@@ -19,8 +19,8 @@ def add_cities(cities: List) -> None:
                     defaults={
                         "name": index.get("city_name"),
                         "latitude": index.get("latitude"),
-                        "longitude": index.get("longitude")
-                    }
+                        "longitude": index.get("longitude"),
+                    },
                 )
             except IntegrityError:
                 # Обработка случая, когда запись не существует

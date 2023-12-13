@@ -35,12 +35,17 @@ def calldata_choice_photos(call: CallbackQuery) -> None:
 
 
 def handle_choice_photo_yes(chat_id: int) -> None:
-    bot.send_message(chat_id=chat_id, text="Вы выбрали 'Да'.\nНапишите количество фотографий для показа (1-10):")
+    bot.send_message(
+        chat_id=chat_id,
+        text="Вы выбрали 'Да'.\nНапишите количество фотографий для показа (1-10):",
+    )
     set_state(chat_id=chat_id, states="choice_photo_number")
 
 
 def handle_choice_photo_no(chat_id: int) -> None:
-    bot.send_message(chat_id=chat_id, text="Вы выбрали 'Нет'.\nФотографии показываться не будут.")
+    bot.send_message(
+        chat_id=chat_id, text="Вы выбрали 'Нет'.\nФотографии показываться не будут."
+    )
     set_current_requests(chat_id=chat_id, images_count=0)
     set_state(chat_id=chat_id, states="send_result")
     command = get_current_requests(chat_id=chat_id, column="current_command")

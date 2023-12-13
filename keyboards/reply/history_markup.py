@@ -19,7 +19,9 @@ def show_commands(commands: List) -> InlineKeyboardMarkup:
         InlineKeyboardButton(text=f"{index}", callback_data=index[::-1])
         for index in commands
     ]
-    buttons.append(InlineKeyboardButton(text="Закрыть историю", callback_data="close_history"))
+    buttons.append(
+        InlineKeyboardButton(text="Закрыть историю", callback_data="close_history")
+    )
     markup.add(*buttons)
     return markup
 
@@ -35,10 +37,14 @@ def show_search_hotel(command: str, chat_id: int) -> InlineKeyboardMarkup:
     logger.info("Выбор истории поиска команды.")
     markup: InlineKeyboardMarkup = InlineKeyboardMarkup(row_width=1)
     buttons: List[InlineKeyboardButton] = [
-        InlineKeyboardButton(text=f'{data[command][city_id][0]} {get_cities(city_id, "name")}',
-                             callback_data=f"final {command} {city_id}")
+        InlineKeyboardButton(
+            text=f'{data[command][city_id][0]} {get_cities(city_id, "name")}',
+            callback_data=f"final {command} {city_id}",
+        )
         for city_id in data[command]
     ]
-    buttons.append(InlineKeyboardButton(text="Закрыть просмотр", callback_data="close_hotels"))
+    buttons.append(
+        InlineKeyboardButton(text="Закрыть просмотр", callback_data="close_hotels")
+    )
     markup.add(*buttons)
     return markup

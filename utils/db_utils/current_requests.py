@@ -38,7 +38,7 @@ def set_current_requests(chat_id: int, default: bool = False, **kwargs) -> None:
             "price_min": 0,
             "price_max": 0,
             "distance_min": 0,
-            "distance_max": 100
+            "distance_max": 100,
         }
 
         row, _ = CurrentRequests.get_or_create(chat_id=chat_id, defaults=defaults)

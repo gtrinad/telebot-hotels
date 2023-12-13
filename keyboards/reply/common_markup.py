@@ -13,7 +13,7 @@ def markup_choice_city() -> InlineKeyboardMarkup:
     logger.info("Подтверждение продолжить выбор города.")
     buttons = [
         InlineKeyboardButton(text="Да", callback_data="city_yes"),
-        InlineKeyboardButton(text="Нет", callback_data="city_no")
+        InlineKeyboardButton(text="Нет", callback_data="city_no"),
     ]
 
     return InlineKeyboardMarkup().add(*buttons)
@@ -27,7 +27,10 @@ def city_markup(cities: List) -> InlineKeyboardMarkup:
 
     logger.info("Подтверждение выбора города.")
     buttons = [
-        InlineKeyboardButton(text=index.get("city_name"), callback_data=f'id {index.get("destination_id")}')
+        InlineKeyboardButton(
+            text=index.get("city_name"),
+            callback_data=f'id {index.get("destination_id")}',
+        )
         for index in cities
     ]
 
@@ -41,7 +44,7 @@ def markup_choice_date_to() -> InlineKeyboardMarkup:
 
     buttons = [
         InlineKeyboardButton(text="Всё верно", callback_data="date_to_right"),
-        InlineKeyboardButton(text="Изменить", callback_data="date_to_change")
+        InlineKeyboardButton(text="Изменить", callback_data="date_to_change"),
     ]
 
     return InlineKeyboardMarkup().add(*buttons)
@@ -54,7 +57,7 @@ def markup_to_cancel() -> InlineKeyboardMarkup:
 
     buttons = [
         InlineKeyboardButton(text="Завершить", callback_data="date_to_cancel"),
-        InlineKeyboardButton(text="Продолжить", callback_data="date_to_continue")
+        InlineKeyboardButton(text="Продолжить", callback_data="date_to_continue"),
     ]
 
     return InlineKeyboardMarkup().add(*buttons)
@@ -67,7 +70,7 @@ def markup_choice_date_from() -> InlineKeyboardMarkup:
 
     buttons = [
         InlineKeyboardButton(text="Всё верно", callback_data="date_from_right"),
-        InlineKeyboardButton(text="Изменить", callback_data="date_from_change")
+        InlineKeyboardButton(text="Изменить", callback_data="date_from_change"),
     ]
 
     return InlineKeyboardMarkup().add(*buttons)
@@ -80,7 +83,7 @@ def markup_from_cancel() -> InlineKeyboardMarkup:
 
     buttons = [
         InlineKeyboardButton(text="Завершить", callback_data="date_from_cancel"),
-        InlineKeyboardButton(text="Продолжить", callback_data="date_from_continue")
+        InlineKeyboardButton(text="Продолжить", callback_data="date_from_continue"),
     ]
 
     return InlineKeyboardMarkup().add(*buttons)
@@ -111,7 +114,7 @@ def markup_choice_photo() -> InlineKeyboardMarkup:
     logger.info("Подтверждение выбора фото.")
     buttons = [
         InlineKeyboardButton(text="Да", callback_data="choice_photo_yes"),
-        InlineKeyboardButton(text="Нет", callback_data="choice_photo_no")
+        InlineKeyboardButton(text="Нет", callback_data="choice_photo_no"),
     ]
 
     return InlineKeyboardMarkup().add(*buttons)

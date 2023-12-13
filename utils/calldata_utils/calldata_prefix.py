@@ -68,7 +68,10 @@ def calendar_calldata(call: CallbackQuery) -> None:
         set_current_requests(chat_id=chat_id, destination_id=city_id)
         if get_current_requests(chat_id=chat_id, column="current_command") == "custom":
             set_state(chat_id=chat_id, states="price_min")
-            bot.send_message(chat_id=chat_id, text="Введите желаемую минимальную стоимость за ночь, (USD):")
+            bot.send_message(
+                chat_id=chat_id,
+                text="Введите желаемую минимальную стоимость за ночь, (USD):",
+            )
         else:
             set_state(chat_id=chat_id, states="date_from")
             from_date(message=message)

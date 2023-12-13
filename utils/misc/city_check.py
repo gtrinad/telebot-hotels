@@ -29,7 +29,7 @@ def city_check(response_api: Union[Response, bool]) -> Union[List[dict], bool]:
             "city_name": match.group("fullName"),
             "destination_id": int(match.group("sourceId")),
             "latitude": match.group("latitude"),
-            "longitude": match.group("longitude")
+            "longitude": match.group("longitude"),
         }
         cities.append(city_data)
 
